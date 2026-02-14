@@ -30,9 +30,15 @@ func runList(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	groups := []string{"core", "custom"}
+	var groups []string
 	if len(args) == 1 {
 		groups = []string{args[0]}
+	} else {
+		var err error
+		groups, err = fs.ListGroups(root)
+		if err != nil {
+			return err
+		}
 	}
 
 	var sections []manual.Section

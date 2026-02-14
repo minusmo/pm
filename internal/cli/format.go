@@ -10,36 +10,29 @@ import (
 )
 
 // PrintSectionList writes a grouped list of sections to w.
+// Groups are printed in the order they first appear in the input.
 func PrintSectionList(w io.Writer, sections []manual.Section) {
-	coreItems := []manual.Section{}
-	customItems := []manual.Section{}
-
+	// Collect groups in first-appearance order
+	var groupOrder []string
+	grouped := make(map[string][]manual.Section)
 	for _, s := range sections {
-		switch s.Group {
-		case "core":
-			coreItems = append(coreItems, s)
-		case "custom":
-			customItems = append(customItems, s)
+		if _, exists := grouped[s.Group]; !exists {
+			groupOrder = append(groupOrder, s.Group)
 		}
+		grouped[s.Group] = append(grouped[s.Group], s)
 	}
 
-	if len(coreItems) > 0 {
-		fmt.Fprintln(w, "Core sections:")
-		for _, s := range coreItems {
-			title := s.Title
-			if title == "" {
-				title = s.Name
-			}
-			fmt.Fprintf(w, "  %-16s %s\n", s.Name, title)
-		}
+	if len(groupOrder) == 0 {
+		fmt.Fprintln(w, "No sections found.")
+		return
 	}
 
-	if len(customItems) > 0 {
-		if len(coreItems) > 0 {
+	for i, g := range groupOrder {
+		if i > 0 {
 			fmt.Fprintln(w)
 		}
-		fmt.Fprintln(w, "Custom sections:")
-		for _, s := range customItems {
+		fmt.Fprintf(w, "%s sections:\n", capitalize(g))
+		for _, s := range grouped[g] {
 			title := s.Title
 			if title == "" {
 				title = s.Name
@@ -47,10 +40,34 @@ func PrintSectionList(w io.Writer, sections []manual.Section) {
 			fmt.Fprintf(w, "  %-16s %s\n", s.Name, title)
 		}
 	}
+}
 
-	if len(coreItems) == 0 && len(customItems) == 0 {
-		fmt.Fprintln(w, "No sections found.")
+// PrintTemplateList writes the available templates to w.
+func PrintTemplateList(w io.Writer, templates []manual.Template) {
+	fmt.Fprintln(w, "Available templates:")
+	fmt.Fprintln(w)
+	for _, t := range templates {
+		desc := t.Description
+		if desc == "" {
+			desc = fmt.Sprintf("%d section(s)", len(t.Sections))
+		}
+		fmt.Fprintf(w, "  %-16s %s\n", t.Name, desc)
+
+		for _, s := range t.Sections {
+			fmt.Fprintf(w, "                     - %s/%s\n", s.Group, s.Name)
+		}
+		fmt.Fprintln(w)
 	}
+	fmt.Fprintln(w, "Usage:")
+	fmt.Fprintln(w, "  pm init --template <name>        Use a built-in preset")
+	fmt.Fprintln(w, "  pm init --template <path.json>   Use a custom template file")
+}
+
+func capitalize(s string) string {
+	if s == "" {
+		return s
+	}
+	return strings.ToUpper(s[:1]) + s[1:]
 }
 
 // PrintSearchResults writes search results in grep-like format to w.

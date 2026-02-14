@@ -69,7 +69,13 @@ func ReadFile(root, relPath string) (string, error) {
 // Comparison is case-insensitive.
 func FindSection(root, name string) (group, relPath string, err error) {
 	lower := strings.ToLower(name)
-	for _, g := range []string{"core", "custom"} {
+
+	groups, err := ListGroups(root)
+	if err != nil {
+		return "", "", err
+	}
+
+	for _, g := range groups {
 		files, err := ListMarkdownFiles(root, g)
 		if err != nil {
 			return "", "", err

@@ -33,11 +33,15 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// loadAllSections reads and parses all sections from core/ and custom/.
+// loadAllSections reads and parses all sections from all groups under .pm/.
 func loadAllSections(root string) ([]manual.Section, error) {
-	var sections []manual.Section
+	groups, err := fs.ListGroups(root)
+	if err != nil {
+		return nil, err
+	}
 
-	for _, group := range []string{"core", "custom"} {
+	var sections []manual.Section
+	for _, group := range groups {
 		names, err := fs.ListMarkdownFiles(root, group)
 		if err != nil {
 			return nil, err
