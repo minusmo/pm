@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"bufio"
+	"fmt"
 	"os"
 
 	"github.com/hojooneum/pm/internal/cli"
@@ -20,7 +22,15 @@ func runRoot(cmd *cobra.Command, args []string) error {
 	root, _ := os.Getwd()
 
 	if !fs.DetectPMDir(root) {
-		cli.PrintNoPMDir(cmd.OutOrStdout())
+		w := cmd.OutOrStdout()
+		fmt.Fprintln(w, "No .pm/ directory found in the current directory.")
+		fmt.Fprintln(w)
+
+		if isInteractive() {
+			return runInteractiveInit(cmd, root)
+		}
+
+		fmt.Fprintln(w, "Run 'pm init' to create one.")
 		return nil
 	}
 
@@ -31,6 +41,48 @@ func runRoot(cmd *cobra.Command, args []string) error {
 
 	cli.PrintProjectSummary(cmd.OutOrStdout(), sections)
 	return nil
+}
+
+// isInteractive returns true when stdin is a terminal (not piped/redirected).
+func isInteractive() bool {
+	fi, err := os.Stdin.Stat()
+	if err != nil {
+		return false
+	}
+	return fi.Mode()&os.ModeCharDevice != 0
+}
+
+// runInteractiveInit drives the interactive init flow: confirm, pick template, scaffold.
+func runInteractiveInit(cmd *cobra.Command, root string) error {
+	w := cmd.OutOrStdout()
+	scanner := bufio.NewScanner(os.Stdin)
+
+	ok, err := cli.ConfirmYesNo(scanner, w, "Would you like to create one?", true)
+	if err != nil {
+		return err
+	}
+	if !ok {
+		fmt.Fprintln(w, "Run 'pm init' to create one when you're ready.")
+		return nil
+	}
+
+	fmt.Fprintln(w)
+
+	presets := manual.ListPresets()
+	options := make([]string, len(presets))
+	descriptions := make([]string, len(presets))
+	for i, p := range presets {
+		options[i] = p.Name
+		descriptions[i] = p.Description
+	}
+
+	idx, err := cli.SelectOption(scanner, w, "Select a template:", options, descriptions, 0)
+	if err != nil {
+		return err
+	}
+
+	fmt.Fprintln(w)
+	return doInit(w, root, presets[idx])
 }
 
 // loadAllSections reads and parses all sections from all groups under .pm/.

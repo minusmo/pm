@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -43,6 +44,12 @@ func runInit(cmd *cobra.Command, args []string) error {
 	}
 
 	root, _ := os.Getwd()
+	return doInit(w, root, tmpl)
+}
+
+// doInit scaffolds the .pm/ directory using the given template.
+// Extracted so both runInit and the interactive root flow can reuse it.
+func doInit(w io.Writer, root string, tmpl manual.Template) error {
 	pmPath := fs.PMPath(root)
 
 	// Collect unique groups and ensure directories
