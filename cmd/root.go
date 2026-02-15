@@ -11,11 +11,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version = "dev"
+
 var rootCmd = &cobra.Command{
-	Use:   "pm",
-	Short: "Project manual — manage and browse runbooks from .pm/",
-	Long:  "pm is a CLI tool for managing project-specific runbooks and manuals stored in .pm/ directories.",
-	RunE:  runRoot,
+	Use:     "pm",
+	Short:   "Project manual — manage and browse runbooks from .pm/",
+	Long:    "pm is a CLI tool for managing project-specific runbooks and manuals stored in .pm/ directories.",
+	Version: version,
+	RunE:    runRoot,
+}
+
+func init() {
+	rootCmd.SetVersionTemplate("pm version {{.Version}}\n")
 }
 
 func runRoot(cmd *cobra.Command, args []string) error {

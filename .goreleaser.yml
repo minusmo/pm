@@ -1,0 +1,33 @@
+version: 2
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X github.com/hojooneum/pm/cmd.version={{.Version}}
+
+archives:
+  - format: tar.gz
+
+checksum:
+  name_template: checksums.txt
+
+brews:
+  - repository:
+      owner: hojooneum
+      name: homebrew-tap
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/hojooneum/pm"
+    description: "CLI tool for managing project runbooks from .pm/ directories"
+    license: "MIT"
+    install: |
+      bin.install "pm"
+    test: |
+      system "#{bin}/pm", "--version"

@@ -2,6 +2,9 @@
 pm
 *.exe
 
+# goreleaser
+dist/
+
 # IDE
 .idea/
 .vscode/
