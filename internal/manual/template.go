@@ -12,10 +12,10 @@ var DefaultTemplates = map[string]string{
 	"contacts":     contactsTmpl,
 
 	// Onboarding
-	"setup-guide":           setupGuideTmpl,
-	"codebase-walkthrough":  codebaseWalkthroughTmpl,
-	"dev-workflow":          devWorkflowTmpl,
-	"coding-conventions":    codingConventionsTmpl,
+	"setup-guide":          setupGuideTmpl,
+	"codebase-walkthrough": codebaseWalkthroughTmpl,
+	"dev-workflow":         devWorkflowTmpl,
+	"coding-conventions":   codingConventionsTmpl,
 
 	// Microservice
 	"service-dependencies": serviceDependenciesTmpl,
@@ -24,11 +24,11 @@ var DefaultTemplates = map[string]string{
 	"scaling":              scalingTmpl,
 
 	// Library
-	"api-reference":   apiReferenceTmpl,
-	"usage-examples":  usageExamplesTmpl,
-	"versioning":      versioningTmpl,
-	"publishing":      publishingTmpl,
-	"contributing":    contributingTmpl,
+	"api-reference":  apiReferenceTmpl,
+	"usage-examples": usageExamplesTmpl,
+	"versioning":     versioningTmpl,
+	"publishing":     publishingTmpl,
+	"contributing":   contributingTmpl,
 
 	// Framework
 	"getting-started": gettingStartedTmpl,

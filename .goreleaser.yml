@@ -19,12 +19,12 @@ archives:
 checksum:
   name_template: checksums.txt
 
-homebrew_casks:
+brews:
   - repository:
       owner: minusmo
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
-    directory: Casks
+    directory: Formula
     homepage: "https://github.com/hojooneum/pm"
     description: "CLI tool for managing project runbooks from .pm/ directories"
     license: "MIT"
