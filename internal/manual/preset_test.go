@@ -10,12 +10,15 @@ import (
 
 func TestListPresets(t *testing.T) {
 	presets := ListPresets()
-	if len(presets) != 2 {
-		t.Fatalf("expected 2 presets, got %d", len(presets))
+	if len(presets) != 6 {
+		t.Fatalf("expected 6 presets, got %d", len(presets))
 	}
 	// Should be sorted by name
-	if presets[0].Name != "default" || presets[1].Name != "minimal" {
-		t.Errorf("unexpected preset order: %s, %s", presets[0].Name, presets[1].Name)
+	expected := []string{"default", "framework", "library", "microservice", "minimal", "onboarding"}
+	for i, name := range expected {
+		if presets[i].Name != name {
+			t.Errorf("preset[%d]: expected %q, got %q", i, name, presets[i].Name)
+		}
 	}
 }
 
@@ -52,6 +55,91 @@ func TestLoadPreset_Minimal(t *testing.T) {
 	for i, s := range tmpl.Sections {
 		if s.Name != expected[i] {
 			t.Errorf("section[%d]: expected %q, got %q", i, expected[i], s.Name)
+		}
+	}
+}
+
+func TestLoadPreset_Onboarding(t *testing.T) {
+	tmpl, err := LoadPreset("onboarding")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tmpl.Sections) != 6 {
+		t.Fatalf("expected 6 sections, got %d", len(tmpl.Sections))
+	}
+	expected := []string{"overview", "setup-guide", "codebase-walkthrough", "dev-workflow", "coding-conventions", "contacts"}
+	for i, s := range tmpl.Sections {
+		if s.Name != expected[i] {
+			t.Errorf("section[%d]: expected %q, got %q", i, expected[i], s.Name)
+		}
+	}
+	// All sections should have rich templates
+	for _, s := range tmpl.Sections {
+		if _, ok := DefaultTemplates[s.Name]; !ok {
+			t.Errorf("section %q has no DefaultTemplate entry", s.Name)
+		}
+	}
+}
+
+func TestLoadPreset_Microservice(t *testing.T) {
+	tmpl, err := LoadPreset("microservice")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tmpl.Sections) != 9 {
+		t.Fatalf("expected 9 sections, got %d", len(tmpl.Sections))
+	}
+	expected := []string{"overview", "service-dependencies", "api-contracts", "health-checks", "scaling", "deploy", "monitoring", "troubleshoot", "contacts"}
+	for i, s := range tmpl.Sections {
+		if s.Name != expected[i] {
+			t.Errorf("section[%d]: expected %q, got %q", i, expected[i], s.Name)
+		}
+	}
+	for _, s := range tmpl.Sections {
+		if _, ok := DefaultTemplates[s.Name]; !ok {
+			t.Errorf("section %q has no DefaultTemplate entry", s.Name)
+		}
+	}
+}
+
+func TestLoadPreset_Library(t *testing.T) {
+	tmpl, err := LoadPreset("library")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tmpl.Sections) != 7 {
+		t.Fatalf("expected 7 sections, got %d", len(tmpl.Sections))
+	}
+	expected := []string{"overview", "api-reference", "usage-examples", "versioning", "publishing", "contributing", "contacts"}
+	for i, s := range tmpl.Sections {
+		if s.Name != expected[i] {
+			t.Errorf("section[%d]: expected %q, got %q", i, expected[i], s.Name)
+		}
+	}
+	for _, s := range tmpl.Sections {
+		if _, ok := DefaultTemplates[s.Name]; !ok {
+			t.Errorf("section %q has no DefaultTemplate entry", s.Name)
+		}
+	}
+}
+
+func TestLoadPreset_Framework(t *testing.T) {
+	tmpl, err := LoadPreset("framework")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tmpl.Sections) != 7 {
+		t.Fatalf("expected 7 sections, got %d", len(tmpl.Sections))
+	}
+	expected := []string{"overview", "getting-started", "plugin-system", "migration-guide", "contributing", "versioning", "contacts"}
+	for i, s := range tmpl.Sections {
+		if s.Name != expected[i] {
+			t.Errorf("section[%d]: expected %q, got %q", i, expected[i], s.Name)
+		}
+	}
+	for _, s := range tmpl.Sections {
+		if _, ok := DefaultTemplates[s.Name]; !ok {
+			t.Errorf("section %q has no DefaultTemplate entry", s.Name)
 		}
 	}
 }

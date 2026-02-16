@@ -51,6 +51,59 @@ var builtinPresets = map[string]Template{
 			{Name: "contacts", Group: "core", Title: "Contacts & Escalation", Description: "Team contacts and escalation procedures", Tags: []string{"contacts", "oncall", "escalation"}},
 		},
 	},
+	"onboarding": {
+		Name:        "onboarding",
+		Description: "New developer onboarding with 6 sections",
+		Sections: []SectionDef{
+			{Name: "overview", Group: "core", Title: "Project Overview", Description: "High-level summary of this project", Tags: []string{"overview", "architecture"}},
+			{Name: "setup-guide", Group: "core", Title: "Setup Guide", Description: "Local development environment setup instructions", Tags: []string{"setup", "install", "environment"}},
+			{Name: "codebase-walkthrough", Group: "core", Title: "Codebase Walkthrough", Description: "Guided tour of the project structure and key modules", Tags: []string{"codebase", "structure", "architecture"}},
+			{Name: "dev-workflow", Group: "core", Title: "Development Workflow", Description: "Day-to-day development process and branch strategy", Tags: []string{"workflow", "git", "branching"}},
+			{Name: "coding-conventions", Group: "core", Title: "Coding Conventions", Description: "Code style, naming, and best practices for this project", Tags: []string{"conventions", "style", "standards"}},
+			{Name: "contacts", Group: "core", Title: "Contacts & Escalation", Description: "Team contacts and escalation procedures", Tags: []string{"contacts", "oncall", "escalation"}},
+		},
+	},
+	"microservice": {
+		Name:        "microservice",
+		Description: "Microservice runbook with 9 sections",
+		Sections: []SectionDef{
+			{Name: "overview", Group: "core", Title: "Project Overview", Description: "High-level summary of this project", Tags: []string{"overview", "architecture"}},
+			{Name: "service-dependencies", Group: "core", Title: "Service Dependencies", Description: "Upstream and downstream service dependencies", Tags: []string{"dependencies", "services", "integration"}},
+			{Name: "api-contracts", Group: "core", Title: "API Contracts", Description: "API endpoints, schemas, and contract specifications", Tags: []string{"api", "contracts", "schema"}},
+			{Name: "health-checks", Group: "core", Title: "Health Checks", Description: "Service health check endpoints and liveness/readiness probes", Tags: []string{"health", "probes", "liveness", "readiness"}},
+			{Name: "scaling", Group: "core", Title: "Scaling Guide", Description: "Horizontal and vertical scaling strategies", Tags: []string{"scaling", "performance", "capacity"}},
+			{Name: "deploy", Group: "core", Title: "Deployment Guide", Description: "Step-by-step deployment procedures", Tags: []string{"deploy", "release"}},
+			{Name: "monitoring", Group: "core", Title: "Monitoring & Alerts", Description: "Monitoring setup, dashboards, and alert runbooks", Tags: []string{"monitoring", "alerts", "metrics"}},
+			{Name: "troubleshoot", Group: "core", Title: "Troubleshooting Guide", Description: "Common issues and resolution steps", Tags: []string{"troubleshoot", "incident", "debug"}},
+			{Name: "contacts", Group: "core", Title: "Contacts & Escalation", Description: "Team contacts and escalation procedures", Tags: []string{"contacts", "oncall", "escalation"}},
+		},
+	},
+	"library": {
+		Name:        "library",
+		Description: "Library/package documentation with 7 sections",
+		Sections: []SectionDef{
+			{Name: "overview", Group: "core", Title: "Project Overview", Description: "High-level summary of this project", Tags: []string{"overview", "architecture"}},
+			{Name: "api-reference", Group: "core", Title: "API Reference", Description: "Public API surface and usage documentation", Tags: []string{"api", "reference", "documentation"}},
+			{Name: "usage-examples", Group: "core", Title: "Usage Examples", Description: "Practical examples and common use cases", Tags: []string{"examples", "usage", "quickstart"}},
+			{Name: "versioning", Group: "core", Title: "Versioning", Description: "Version strategy, changelog, and compatibility policy", Tags: []string{"versioning", "semver", "changelog"}},
+			{Name: "publishing", Group: "core", Title: "Publishing", Description: "Release and publishing procedures", Tags: []string{"publishing", "release", "distribution"}},
+			{Name: "contributing", Group: "core", Title: "Contributing", Description: "Guidelines for contributing to this project", Tags: []string{"contributing", "guidelines", "community"}},
+			{Name: "contacts", Group: "core", Title: "Contacts & Escalation", Description: "Team contacts and escalation procedures", Tags: []string{"contacts", "oncall", "escalation"}},
+		},
+	},
+	"framework": {
+		Name:        "framework",
+		Description: "Framework documentation with 7 sections",
+		Sections: []SectionDef{
+			{Name: "overview", Group: "core", Title: "Project Overview", Description: "High-level summary of this project", Tags: []string{"overview", "architecture"}},
+			{Name: "getting-started", Group: "core", Title: "Getting Started", Description: "Quick start guide for new users of this framework", Tags: []string{"getting-started", "quickstart", "tutorial"}},
+			{Name: "plugin-system", Group: "core", Title: "Plugin System", Description: "Plugin architecture, extension points, and authoring guide", Tags: []string{"plugins", "extensions", "hooks"}},
+			{Name: "migration-guide", Group: "core", Title: "Migration Guide", Description: "Upgrade paths and breaking change migration instructions", Tags: []string{"migration", "upgrade", "breaking-changes"}},
+			{Name: "contributing", Group: "core", Title: "Contributing", Description: "Guidelines for contributing to this project", Tags: []string{"contributing", "guidelines", "community"}},
+			{Name: "versioning", Group: "core", Title: "Versioning", Description: "Version strategy, changelog, and compatibility policy", Tags: []string{"versioning", "semver", "changelog"}},
+			{Name: "contacts", Group: "core", Title: "Contacts & Escalation", Description: "Team contacts and escalation procedures", Tags: []string{"contacts", "oncall", "escalation"}},
+		},
+	},
 }
 
 // ListPresets returns all built-in presets sorted by name.

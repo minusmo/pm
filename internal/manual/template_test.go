@@ -43,9 +43,10 @@ func TestDefaultTemplates_Parseable(t *testing.T) {
 	}
 }
 
-func TestCoreSectionOrder_MatchesTemplates(t *testing.T) {
-	if len(CoreSectionOrder) != len(DefaultTemplates) {
-		t.Errorf("CoreSectionOrder has %d entries but DefaultTemplates has %d",
-			len(CoreSectionOrder), len(DefaultTemplates))
+func TestCoreSectionOrder_SubsetOfTemplates(t *testing.T) {
+	for _, name := range CoreSectionOrder {
+		if _, ok := DefaultTemplates[name]; !ok {
+			t.Errorf("CoreSectionOrder entry %q not found in DefaultTemplates", name)
+		}
 	}
 }
