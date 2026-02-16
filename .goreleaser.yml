@@ -13,17 +13,18 @@ builds:
       - -s -w -X github.com/hojooneum/pm/cmd.version={{.Version}}
 
 archives:
-  - format: tar.gz
+  - formats:
+      - tar.gz
 
 checksum:
   name_template: checksums.txt
 
-brews:
+homebrew_casks:
   - repository:
-      owner: hojooneum
+      owner: minusmo
       name: homebrew-tap
       token: "{{ .Env.TAP_GITHUB_TOKEN }}"
-    directory: Formula
+    directory: Casks
     homepage: "https://github.com/hojooneum/pm"
     description: "CLI tool for managing project runbooks from .pm/ directories"
     license: "MIT"
