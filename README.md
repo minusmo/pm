@@ -28,6 +28,9 @@ pm list
 # Open a specific section
 pm open deploy
 
+# Edit a section in your editor
+pm edit deploy
+
 # Search across all sections
 pm search kubernetes
 ```
@@ -42,6 +45,7 @@ Running `pm` with no arguments shows a project summary, or prompts you to initia
 | `pm init` | Scaffold a `.pm/` directory from a template |
 | `pm list [group]` | List available sections (alias: `ls`) |
 | `pm open <section>` | Display a section's content |
+| `pm edit <section>` | Open a section in `$EDITOR` for editing |
 | `pm search <keyword>` | Search for a keyword across all sections |
 
 ### pm init
